@@ -66,7 +66,7 @@ curl -X POST http://localhost:5000/api/auth/register \
   -d '{"studentId":"ADMIN001","name":"Admin","email":"admin@mu.edu","password":"admin123","role":"admin"}'
 ```
 
-Then log in at http://localhost:3000 with `ADMIN001` / `admin123`.
+Then log in at http://localhost:3000 with `Slio` / `123456`.
 
 From the admin panel you can:
 1. Add professors (Admin → Professors)

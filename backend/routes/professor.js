@@ -3,28 +3,22 @@ const auth = require('../middleware/auth');
 const Course = require('../models/Course');
 const Feedback = require('../models/Feedback');
 
-// GET /api/professor/courses  — courses assigned to professor
 router.get('/courses', auth(['professor']), async (req, res) => {
   try {
-    const courses = await Course.find({ professor: req.user.id });
-    res.json(courses);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+    res.json(await Course.find({ professor: req.user.id }));
+  } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
-// GET /api/professor/feedback/:courseId  — aggregated feedback for a course
-router.get('/feedback/:courseId', auth(['professor']), async (req, res) => {
+router.get('/feedback/:courseId', auth(['professor', 'admin']), async (req, res) => {
   try {
     const course = await Course.findById(req.params.courseId);
-    if (!course || course.professor.toString() !== req.user.id) {
-      return res.status(403).json({ message: 'Access denied' });
-    }
+    if (!course) return res.status(404).json({ message: 'Course not found.' });
+    if (req.user.role === 'professor' && course.professor.toString() !== req.user.id)
+      return res.status(403).json({ message: 'Access denied.' });
 
     const feedbacks = await Feedback.find({ course: req.params.courseId });
-    if (!feedbacks.length) return res.json({ count: 0, averages: {}, coSummary: [] });
+    if (!feedbacks.length) return res.json({ count: 0, averages: {}, coSummary: [], responses: [] });
 
-    // Compute averages for each rating group
     const groups = ['teachingEffectiveness', 'engagementCommunication', 'assessmentFeedback', 'overallExperience'];
     const averages = {};
     groups.forEach(g => {
@@ -37,7 +31,6 @@ router.get('/feedback/:courseId', auth(['professor']), async (req, res) => {
       });
     });
 
-    // CO summary per module
     const moduleMap = {};
     feedbacks.forEach(f => {
       (f.courseOutcomes?.moduleCoverage || []).forEach(m => {
@@ -47,15 +40,17 @@ router.get('/feedback/:courseId', auth(['professor']), async (req, res) => {
       });
     });
 
-    res.json({
-      count: feedbacks.length,
-      averages,
-      coSummary: Object.values(moduleMap),
-      comments: feedbacks.filter(f => f.comments).map(f => f.comments)
-    });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+    // Anonymous numbered responses for the detailed view
+    const responses = feedbacks.map((f, i) => ({
+      respondent: `Anonymous Student ${i + 1}`,
+      ratings: f.ratings,
+      comments: f.comments,
+      courseOutcomes: f.courseOutcomes,
+      submittedAt: f.submittedAt
+    }));
+
+    res.json({ count: feedbacks.length, averages, coSummary: Object.values(moduleMap), comments: feedbacks.filter(f => f.comments).map(f => f.comments), responses });
+  } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
 module.exports = router;

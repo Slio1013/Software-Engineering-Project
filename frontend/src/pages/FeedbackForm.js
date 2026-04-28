@@ -112,14 +112,11 @@ export default function FeedbackForm() {
   };
 
   const handleCoNext = () => {
-    setError('');
-    if (!allGood && !Object.values(checkedModules).some(Boolean)) {
-      setError('Please select at least one module or mark everything as covered.'); return;
-    }
+    setError("");
     if (allGood) { doSubmit(); return; }
     const uncovered = (course?.modules || []).filter(m => !checkedModules[m.moduleId]);
     if (uncovered.length === 0) { doSubmit(); return; }
-    setCoPhase('grievance');
+    setCoPhase("grievance");
   };
 
   const handleGrievanceSubmit = () => {

@@ -9,6 +9,8 @@ import ProfessorDashboard from './pages/ProfessorDashboard';
 import AdminOverview from './pages/AdminOverview';
 import AdminCourses from './pages/AdminCourses';
 import AdminProfessors from './pages/AdminProfessors';
+import AdminStudents from './pages/AdminStudents';
+import AdminEnrol from './pages/AdminEnrol';
 import AdminFeedback from './pages/AdminFeedback';
 
 function PrivateRoute({ children, roles }) {
@@ -31,6 +33,8 @@ function AppRoutes() {
         <Route path="/admin" element={<PrivateRoute roles={['admin']}><AdminOverview /></PrivateRoute>} />
         <Route path="/admin/courses" element={<PrivateRoute roles={['admin']}><AdminCourses /></PrivateRoute>} />
         <Route path="/admin/professors" element={<PrivateRoute roles={['admin']}><AdminProfessors /></PrivateRoute>} />
+        <Route path="/admin/students" element={<PrivateRoute roles={['admin']}><AdminStudents /></PrivateRoute>} />
+        <Route path="/admin/enroll" element={<PrivateRoute roles={['admin']}><AdminEnrol /></PrivateRoute>} />
         <Route path="/admin/feedback" element={<PrivateRoute roles={['admin']}><AdminFeedback /></PrivateRoute>} />
         <Route path="*" element={<Navigate to={user ? (user.role === 'admin' ? '/admin' : user.role === 'professor' ? '/professor' : '/dashboard') : '/login'} replace />} />
       </Routes>
