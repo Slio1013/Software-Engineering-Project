@@ -30,7 +30,7 @@ function ResponseCard({ response, index }) {
         <span style={{ fontWeight: 500, fontSize: 14 }}>{response.respondent}</span>
         <div className="flex gap-2">
           <span className="text-muted" style={{ fontSize: 12 }}>{new Date(response.submittedAt).toLocaleDateString()}</span>
-          <span style={{ fontSize: 12 }}>{open ? '▲' : '▼'}</span>
+          <span style={{ fontSize: 12 }}>{open ? '−' : '+'}</span>
         </div>
       </div>
       {open && (
@@ -63,7 +63,7 @@ function ResponseCard({ response, index }) {
                   <div key={m.moduleId} style={{ marginBottom: 6 }}>
                     <div className="flex-between">
                       <span style={{ fontSize: 13 }}>{m.moduleName}</span>
-                      <span className={`badge ${m.metExpectations ? 'green' : 'amber'}`}>{m.metExpectations ? '✓ met' : 'not met'}</span>
+                      <span className={`badge ${m.metExpectations ? 'green' : 'amber'}`}>{m.metExpectations ? 'met' : 'not met'}</span>
                     </div>
                     {!m.metExpectations && m.grievance && (
                       <div style={{ fontSize: 12, color: 'var(--text2)', marginTop: 4, paddingLeft: 8, borderLeft: '2px solid var(--amber)' }}>{m.grievance}</div>

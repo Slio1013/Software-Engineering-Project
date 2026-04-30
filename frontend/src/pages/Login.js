@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import { useAuth } from '../context/AuthContext';
+import logo from '../mahindra-logo.png';
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, darkMode } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ studentId: '', password: '' });
   const [error, setError] = useState('');
@@ -20,7 +21,7 @@ export default function Login() {
       else if (data.role === 'professor') navigate('/professor');
       else navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -30,9 +31,22 @@ export default function Login() {
     <div className="auth-wrap">
       <div className="auth-box">
         <div className="auth-logo">
-          <h1>Professor Feedback</h1>
-          <p>Mahindra University — Course Outcome System</p>
+          <img
+            src={logo}
+            alt="Mahindra University"
+            style={{
+              height: 56,
+              width: 'auto',
+              objectFit: 'contain',
+              marginBottom: 12,
+              
+            }}
+          />
+          <p style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
+            Course Outcome Feedback System
+          </p>
         </div>
+
         <div className="card">
           <h2 className="mb-2">Sign in</h2>
           {error && <div className="alert error">{error}</div>}
@@ -44,6 +58,7 @@ export default function Login() {
                 onChange={e => setForm({ ...form, studentId: e.target.value })}
                 placeholder="e.g. SE23UCSE200"
                 required
+                autoComplete="username"
               />
             </div>
             <div className="form-group">
@@ -54,6 +69,7 @@ export default function Login() {
                 onChange={e => setForm({ ...form, password: e.target.value })}
                 placeholder="••••••••"
                 required
+                autoComplete="current-password"
               />
             </div>
             <button className="btn primary w-full mt-2" disabled={loading}>
@@ -61,6 +77,10 @@ export default function Login() {
             </button>
           </form>
         </div>
+
+        <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--text3)', marginTop: 16 }}>
+          © {new Date().getFullYear()} Mahindra University. All rights reserved.
+        </p>
       </div>
     </div>
   );

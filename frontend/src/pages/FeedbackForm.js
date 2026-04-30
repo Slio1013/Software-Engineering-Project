@@ -154,7 +154,7 @@ export default function FeedbackForm() {
   if (done) return (
     <div className="page">
       <div className="container" style={{ maxWidth: 480, textAlign: 'center', paddingTop: '4rem' }}>
-        <div style={{ fontSize: 48, marginBottom: '1rem' }}>✅</div>
+        <div style={{ fontSize: 48, marginBottom: '1rem' }}></div>
         <h2>Feedback Submitted</h2>
         <p className="text-muted mt-1">Your response has been recorded anonymously. Thank you!</p>
         <button className="btn primary mt-3" onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
@@ -198,8 +198,8 @@ export default function FeedbackForm() {
               </div>
             )}
             <div className="flex-between mt-2">
-              <button className="btn" onClick={goBack} disabled={step === 0}>← Back</button>
-              <button className="btn primary" onClick={goNext}>Next →</button>
+              <button className="btn" onClick={goBack} disabled={step === 0}>Back</button>
+              <button className="btn primary" onClick={goNext}>Next</button>
             </div>
           </div>
         )}
@@ -216,7 +216,7 @@ export default function FeedbackForm() {
               style={{ justifyContent: 'center' }}
               onClick={handleAllGood}
             >
-              {allGood ? '✓ Everything covered up to expectations' : '○ Everything covered up to expectations'}
+              {allGood ? 'Everything covered up to expectations' : 'Everything covered up to expectations'}
             </button>
 
             {(course.modules || []).map(m => (
@@ -237,14 +237,14 @@ export default function FeedbackForm() {
                   {m.description && <div className="text-muted" style={{ fontSize: 12 }}>{m.description}</div>}
                 </div>
                 <span className={`badge ${checkedModules[m.moduleId] ? 'green' : 'amber'}`}>
-                  {checkedModules[m.moduleId] ? '✓ met' : 'not yet'}
+                  {checkedModules[m.moduleId] ? 'met' : 'Not met'}
                 </span>
               </div>
             ))}
 
             <div className="flex-between mt-2">
-              <button className="btn" onClick={goBack}>← Back</button>
-              <button className="btn primary" onClick={handleCoNext}>Next →</button>
+              <button className="btn" onClick={goBack}>Back</button>
+              <button className="btn primary" onClick={handleCoNext}>Next</button>
             </div>
           </div>
         )}
@@ -270,7 +270,7 @@ export default function FeedbackForm() {
             ))}
 
             <div className="flex-between mt-2">
-              <button className="btn" onClick={goBack}>← Back</button>
+              <button className="btn" onClick={goBack}>Back</button>
               <button className="btn primary" onClick={handleGrievanceSubmit} disabled={submitting}>
                 {submitting ? 'Submitting...' : 'Submit feedback'}
               </button>

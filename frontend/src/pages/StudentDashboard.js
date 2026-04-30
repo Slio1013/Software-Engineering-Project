@@ -59,7 +59,7 @@ export default function StudentDashboard() {
             <div className="flex-between">
               <span>
                 {c.submitted
-                  ? <span className="badge green">✓ Feedback submitted</span>
+                  ? <span className="badge green">Feedback submitted</span>
                   : c.eligible
                   ? <span className="badge amber">Pending feedback</span>
                   : <span className="badge red">Not eligible (need ≥75%)</span>}
@@ -69,7 +69,7 @@ export default function StudentDashboard() {
                 disabled={!c.eligible || c.submitted}
                 onClick={() => navigate(`/feedback/${c._id}`)}
               >
-                {c.submitted ? 'Submitted' : 'Give feedback →'}
+                {c.submitted ? 'Submitted' : 'Give feedback'}
               </button>
             </div>
           </div>

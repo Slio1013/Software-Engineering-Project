@@ -132,7 +132,7 @@ export default function AdminEnrol() {
                           </td>
                           <td>
                             {s.submitted
-                              ? <span className="badge green">✓ Submitted</span>
+                              ? <span className="badge green">Submitted</span>
                               : <span className="badge amber">Pending</span>}
                           </td>
                           <td>
